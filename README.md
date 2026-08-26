@@ -21,8 +21,7 @@
 7. [OWASP Top 10 for LLMs Mapping](#7-owasp-top-10-for-llms-mapping)
 8. [Installation & Quick Start Guide](#8-installation--quick-start-guide)
 9. [API & Telemetry Reference](#9-api--telemetry-reference)
-10. [90-Second Live Demonstration Pitch Script](#10-90-second-live-demonstration-pitch-script)
-11. [Scalability & Future Roadmap](#11-scalability--future-roadmap)
+
 
 ---
 
@@ -309,26 +308,8 @@ Dispatches a 5-query attack burst to demonstrate dynamic adaptive sampling auto-
 
 ---
 
-## 10. 90-Second Live Demonstration Pitch Script
 
-1. **The Problem (0:00 – 0:30 on `Home / Control Tower`)**:
-   > *"Organizations are rapidly deploying Generative AI, but conventional APMs only watch uptime and latency — they cannot detect when an AI is confidently wrong. In 2024, hallucinations cost enterprises $\$67.4\text{B}$. ControlPlane.ai is a model-agnostic control tower that monitors content safety, factual grounding, and compute cost in real time."*
-
-2. **The Dual-Speed Engine (0:30 – 1:05 on `Gateway Lab`)**:
-   * Click **Preset 1 (Credit Card Exfiltration)**:
-     > *"Watch our Synchronous Fast Guard intercept sensitive PII in just $1.2\text{ms}$ before output delivery."*
-   * Click **Preset 2 (Financial Hallucination)**:
-     > *"Watch our Parallel Judge Model compare the LLM's response against the shareholder report, catch the fabricated growth metric ($34.8\%$ vs $8.4\%$), and attach an automated Citation Warning banner without adding user lag."*
-
-3. **Adaptive Auto-Scaling & Audit (1:05 – 1:30 on `Control Tower` & `HITL Queue`)**:
-   * Click **`Threat Surge`**:
-     > *"Watch our Adaptive Sampling gauge climb from $25\% \rightarrow 85\%$ automatically to shield infrastructure during attack spikes while saving compute budget during calm periods."*
-   * Open **`HITL Queue`**:
-     > *"Compliance teams have complete visibility with 1-click overrides, canned redirects, and downloadable SOC-2 compliance audit packages."*
-
----
-
-## 11. Scalability & Future Roadmap
+## 10. Scalability & Future Roadmap
 
 * **Q4 2026**: Multi-hop agentic guardrails (autonomous agent tool-call interception).
 * **Q1 2027**: Air-gapped on-premise deployment package with vLLM / Ollama sidecars.
