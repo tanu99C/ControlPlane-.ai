@@ -21,8 +21,10 @@ It continuously scores and protects every interaction across four foundational p
 
 ### System Architecture Flowchart:
 <div align="center">
-  <img src="frontend/public/architecture_flowchart.png" width="100%" alt="Dual-Speed Evaluation Engine Architecture" style="border-radius: 8px;" />
+  <img src="frontend/public/architecture_flowchart_hd.png" width="100%" alt="Dual-Speed Evaluation Engine Architecture" style="border-radius: 8px;" />
 </div>
+
+
 
 ---
 

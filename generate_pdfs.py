@@ -4,7 +4,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 HERO_IMG_PATH = (BASE_DIR / "frontend" / "public" / "hero_banner.png").resolve().as_uri()
-FLOWCHART_IMG_PATH = (BASE_DIR / "frontend" / "public" / "architecture_flowchart.png").resolve().as_uri()
+FLOWCHART_IMG_PATH = (BASE_DIR / "frontend" / "public" / "architecture_flowchart_hd.png").resolve().as_uri()
+
+
 
 # --- 1. GENERATE SLEEK README HTML ---
 readme_html = f"""<!DOCTYPE html>
