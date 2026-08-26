@@ -1,7 +1,8 @@
 import re
 import time
-from typing import Tuple, List
+from typing import Tuple, List, Optional, Dict, Any
 from ..models.schemas import FastCheckResult, PIIMatch
+
 
 # Pre-compiled high-performance regex patterns
 CREDIT_CARD_REGEX = re.compile(r'\b(?:\d[ -]*?){13,16}\b')
