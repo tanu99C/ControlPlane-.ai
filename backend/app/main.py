@@ -139,23 +139,27 @@ async def evaluate_request(request: EvaluationRequest, background_tasks: Backgro
     if request.response_override:
         generated_text = request.response_override
     else:
-        # Default smart response generation
+        generated_text = ""
         if judge_evaluator.is_groq_active():
-            try:
-                groq_resp = judge_evaluator._groq_client.chat.completions.create(
-                    model="groq/compound",
-                    messages=[
-                        {"role": "system", "content": request.system_prompt or "You are an intelligent enterprise AI assistant. Provide a clear, thorough, structured, and helpful explanation."},
-                        {"role": "user", "content": f"Context: {request.context or 'None'}\n\nPrompt: {request.prompt}"}
-                    ],
-                    max_tokens=800
-                )
-                generated_text = groq_resp.choices[0].message.content
-            except Exception as e:
-                print(f"[Main] Groq generation error: {e}")
-                generated_text = f"Synthesized response for query: {request.prompt}"
+            for model_candidate in ["groq/compound-mini", "groq/compound", "openai/gpt-oss-120b"]:
+                try:
+                    groq_resp = judge_evaluator._groq_client.chat.completions.create(
+                        model=model_candidate,
+                        messages=[
+                            {"role": "system", "content": request.system_prompt or "You are an intelligent enterprise AI assistant. Provide a clear, thorough, structured, and helpful explanation with examples."},
+                            {"role": "user", "content": f"Context: {request.context or 'None'}\n\nPrompt: {request.prompt}"}
+                        ],
+                        max_tokens=800
+                    )
+                    generated_text = groq_resp.choices[0].message.content.strip()
+                    if generated_text:
+                        break
+                except Exception as e:
+                    print(f"[Main] Groq attempt with {model_candidate} failed: {e}")
+                    continue
 
-        else:
+        # If LLM is offline or all candidates timed out, use rich domain synthesizer
+        if not generated_text:
             import re
             p_lower = request.prompt.lower()
             if re.search(r'\bsoftware engineering\b|\bsoftware developer\b|\bsoftware development\b', p_lower):
@@ -169,14 +173,17 @@ async def evaluate_request(request: EvaluationRequest, background_tasks: Backgro
                 )
             elif re.search(r'\bdata science\b', p_lower):
                 generated_text = (
-                    "Data Science is an interdisciplinary field combining statistics, mathematics, computer science, and domain expertise "
-                    "to extract meaningful insights from data. Key pillars include Exploratory Data Analysis (EDA), Machine Learning model "
-                    "training, and translating quantitative findings into business strategies."
+                    "Data Science is an interdisciplinary field that extracts actionable knowledge and insights from structured and unstructured data. Key pillars include:\n\n"
+                    "1. Statistics & Mathematics: Probability distributions, hypothesis testing, linear algebra, and statistical inference.\n"
+                    "2. Machine Learning & Modeling: Supervised learning (Regression, Random Forests, XGBoost), Unsupervised learning (K-Means, PCA), and Deep Learning.\n"
+                    "3. Data Engineering & EDA: Data cleaning with Pandas/NumPy, SQL database pipelines, and interactive visualization with Tableau or Seaborn.\n"
+                    "4. Business Value Delivery: Translating quantitative predictive models into measurable executive decisions and automated production APIs."
                 )
             elif re.search(r'\bbusiness analytic[s]?\b', p_lower):
                 generated_text = (
-                    "Business Analytics refers to the quantitative exploration and statistical analysis of enterprise data to drive strategic decision-making. "
-                    "It spans descriptive analytics (what happened), predictive analytics (what will happen), and prescriptive analytics (how to act)."
+                    "Business Analytics refers to the systematic exploration and quantitative analysis of enterprise data to drive strategic decision-making. "
+                    "It spans descriptive analytics (what happened), diagnostic analytics (why it happened), predictive analytics (what will happen), "
+                    "and prescriptive analytics (how to act)."
                 )
             elif re.search(r'\b(?:ai|artificial intelligence|llm|machine learning|deep learning)\b', p_lower):
                 generated_text = (
@@ -186,7 +193,12 @@ async def evaluate_request(request: EvaluationRequest, background_tasks: Backgro
             elif request.context and len(request.context.strip()) > 10:
                 generated_text = f"Based on the provided reference context: {request.context.strip()}"
             else:
-                generated_text = f"Comprehensive technical analysis for '{request.prompt}': In modern enterprise engineering, implementing structured methodologies, robust architectural design, and quality assurance guardrails ensures scalable, dependable, and high-performance solutions."
+                generated_text = (
+                    f"Comprehensive Analysis for '{request.prompt}':\n\n"
+                    "In modern enterprise architectures, implementing structured methodologies, robust quality guardrails, and data-driven "
+                    "decision frameworks ensures scalable, dependable, and high-performance outcomes across distributed workflows."
+                )
+
 
 
 
