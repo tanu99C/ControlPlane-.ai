@@ -182,16 +182,25 @@ ControlPlane.ai is engineered specifically to address the **OWASP Top 10 for Lar
 
 ---
 
-### Step 1: Clone Repository & Setup Environment
+### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/tanushree-ai/controlplane-checker.git
-cd controlplane-checker
+git clone https://github.com/tanu99C/ControlPlane-.ai.git
+cd ControlPlane-.ai
 ```
 
 ### Step 2: Configure Environment Variables
 
-Create `backend/.env`:
+Copy the example environment template in the `backend/` directory:
+```bash
+# Windows (Command Prompt / PowerShell):
+copy backend\.env.example backend\.env
+
+# Linux / macOS / Git Bash:
+cp backend/.env.example backend/.env
+```
+
+Open `backend/.env` and add your Groq API key:
 ```env
 GROQ_API_KEY=gsk_your_groq_api_key_here
 DEFAULT_GROQ_MODEL=groq/compound
@@ -199,42 +208,55 @@ JUDGE_MODEL=groq/compound-mini
 HOST=0.0.0.0
 PORT=8000
 ```
+*(Note: A free Groq API key can be generated in 30 seconds at [console.groq.com/keys](https://console.groq.com/keys)).*
 
 ---
 
-### Step 3: Run with 1-Click Script (Windows)
+### Step 3: Run the Application
 
-Simply double-click:
-```cmd
-start_servers.bat
+#### Option A: 1-Click Launchers (Windows)
+Simply run the root startup script:
+```powershell
+.\start_servers.ps1
 ```
-*(Or execute `./start_servers.ps1` in PowerShell)*
+*(Or double-click `start_servers.bat`)*
 
----
+#### Option B: Manual Cross-Platform Startup (2 Terminals)
 
-### Step 4: Manual Startup (Alternative)
-
-**Terminal 1 (Backend - FastAPI):**
+**Terminal 1 — Backend (FastAPI Gateway):**
 ```bash
 cd backend
-python -m venv venv
-# Windows:
-.\venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
 
+# Create & activate a virtual environment (optional but recommended)
+python -m venv venv
+
+# Activate venv:
+# Windows (PowerShell): .\venv\Scripts\Activate.ps1
+# Windows (Git Bash):   source venv/Scripts/activate
+# Linux / macOS:        source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Start the server
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
+*Backend runs at: `http://localhost:8000` (Swagger docs: `http://localhost:8000/docs`)*
 
-**Terminal 2 (Frontend - React + Vite):**
+**Terminal 2 — Frontend (React 19 + Vite):**
 ```bash
 cd frontend
+
+# Install Node packages
 npm install
+
+# Start the development server
 npm run dev
 ```
+*Frontend runs at: `http://localhost:5173`*
 
-Open your browser at: **`http://localhost:5173`**
+Open **`http://localhost:5173`** in your browser to interact with the Control Tower!
+
 
 ---
 
