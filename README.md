@@ -1,58 +1,11 @@
+<div align="center">
+  <img src="frontend/public/hero_banner.png" width="82%" alt="ControlPlane.ai Banner" style="border-radius: 10px;" />
+</div>
+
 # ControlPlane.ai 🛡️
 > **Model-Agnostic Real-Time AI Oversight, Guardrail & Quality Control Tower**  
 > *Developed for the Accenture Innovation Challenge 2026*  
 > **Lead Author / Architect:** Tanu Shree
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
-[![React 19](https://img.shields.io/badge/Frontend-React_19_|_TypeScript-61DAFB.svg)](https://react.dev/)
-[![Groq Cloud](https://img.shields.io/badge/Inference-Groq_Llama_3-F59E0B.svg)](https://groq.com/)
-[![Tailwind CSS](https://img.shields.io/badge/UI-Tailwind_CSS_Dark-38BDF8.svg)](https://tailwindcss.com/)
-
----
-
-## 📑 Table of Contents
-1. [Executive Summary & The Core Problem](#1-executive-summary--the-core-problem)
-2. [Why Existing APMs Fail: The AI Blind Spot](#2-why-existing-apms-fail-the-ai-blind-spot)
-3. [The Solution: ControlPlane.ai](#3-the-solution-controlplaneai)
-4. [System Architecture & Deep Dive](#4-system-architecture--deep-dive)
-5. [Why We Used These Technologies (Design Rationale)](#5-why-we-used-these-technologies-design-rationale)
-6. [Key Features & Capabilities](#6-key-features--capabilities)
-7. [OWASP Top 10 for LLMs Mapping](#7-owasp-top-10-for-llms-mapping)
-8. [Installation & Quick Start Guide](#8-installation--quick-start-guide)
-9. [API & Telemetry Reference](#9-api--telemetry-reference)
-
-
----
-
-## 1. Executive Summary & The Core Problem
-
-As organizations rush Generative AI into customer support, coding, executive decision-making, and automated workflows, one critical question stops being theoretical:  
-**What happens the moment an AI gives you an answer that sounds right — but isn't?**
-
-Deploying an LLM was never the hard part. **Trusting what it says, every single time, is.**
-
-### Key Industry Findings:
-* **\$67.4 Billion**: Estimated global enterprise cost of AI hallucinations and flawed decision-making in 2024 *(Source: AllAboutAI / Korra Report)*.
-* **97%**: Of organizations that suffered an AI security incident lacked real-time inline access inspection and prompt-injection guardrails *(Source: IBM 2025 AI Cyber Risk Study)*.
-* **63%**: Of enterprises deploying LLMs to production lack formal automated governance quality gates, relying solely on traditional server uptime logs *(Source: Deloitte Global AI Survey)*.
-
----
-
-## 2. Why Existing APMs Fail: The AI Blind Spot
-
-Conventional monitoring tools (e.g., Datadog, Dynatrace, New Relic) were built for deterministic code. They track CPU utilization, memory pressure, HTTP status codes, and network latency.
-
-```
-Traditional Monitoring (Datadog/Prometheus):
-[ User Query ] ──▶ [ LLM Endpoint ] ──▶ [ HTTP 200 OK (320ms) ] ✅ "Healthy System"
-                                                │
-                                                ▼ (Unseen Content Failure)
-                                   "Here is the customer's SSN: 000-12-3456" 
-                                   "Our revenue grew by 48% (Hallucinated)"
-```
-
-To an infrastructure monitor, an HTTP 200 response containing a devastating $\$10\text{M}$ hallucination or a leaked private cryptographic key looks identical to a perfect answer. **ControlPlane.ai solves this fundamental gap.**
 
 ---
 
@@ -66,25 +19,10 @@ It continuously scores and protects every interaction across four foundational p
 3. **Compute Efficiency**: Token meter optimization and dynamic auto-scaling sampling.
 4. **Governance & Audit**: Full Human-in-the-Loop (HITL) triage and timestamped compliance export.
 
-```mermaid
-flowchart LR
-    A[User / Application] -->|Prompt| B[ControlPlane.ai Gateway]
-    
-    subgraph Engine [Dual-Speed Evaluation Engine]
-        B --> C[1. Fast Inline Guard <15ms]
-        C -->|PII / Injection Check| D{Critical Threat?}
-        D -->|Yes| E[🛑 Tier 3: Block & Log]
-        D -->|No| F[LLM Generation: Groq Llama 3]
-        F --> G[2. Parallel Judge Model ~180ms]
-        G --> H[Factual Grounding vs Reference Context]
-    end
-    
-    H -->|Grounded >= 75%| I[🟢 Tier 1: Safe Delivery]
-    H -->|Ungrounded < 75%| J[🟡 Tier 2: Citation Warning]
-    E --> K[⚠️ HITL Compliance Queue]
-    J --> K
-    I --> L[📡 Real-Time Telemetry Stream]
-```
+### System Architecture Flowchart:
+<div align="center">
+  <img src="frontend/public/architecture_flowchart.png" width="100%" alt="Dual-Speed Evaluation Engine Architecture" style="border-radius: 8px;" />
+</div>
 
 ---
 
@@ -99,15 +37,17 @@ The core technical breakthrough of ControlPlane.ai is recognizing that **not all
 | **Stage 2: Parallel Deep Judge** | **$\sim 180\text{ ms}$** *(Async/Parallel)* | Groq `compound-mini` / Llama 3.1 LLM-as-a-Judge | Factual consistency against retrieved context (RAG), statistical claim verification, toxicity, and bias | **Soft Warning Badge (Tier 2)** attached to output without blocking user |
 
 ### 4.2. Dynamic Adaptive Sampling Algorithm
-Deep LLM evaluation on $100\%$ of traffic across millions of requests is economically unsustainable. ControlPlane.ai implements an **Adaptive Threat-Triggered Controller**:
+Deep LLM evaluation on 100% of traffic across millions of requests is economically unsustainable. ControlPlane.ai implements an **Adaptive Threat-Triggered Controller**:
 
-$$\text{SampleRate}(t) = \begin{cases} 
-25\% & \text{if } \text{AnomalyRate}_{60s} \le 15\% \quad (\text{Nominal Mode}) \\ 
-\min(100\%, 25\% + \alpha \cdot \text{AnomalyRate}) & \text{if } \text{AnomalyRate}_{60s} > 15\% \quad (\text{Surge Mode}) 
-\end{cases}$$
+```
+SampleRate(t) = 
+  ├── 25%                                    if AnomalyRate(60s) <= 15%  (Nominal Mode)
+  └── min(100%, 25% + alpha * AnomalyRate)   if AnomalyRate(60s) > 15%   (Surge Mode)
+```
 
-* **Routine Conditions**: Samples $25\%$ of traffic for deep verification, slashing compute costs by $75\%$.
-* **Threat Surge / Attack Injections**: Instantly climbs to $85\%–100\%$ inspection depth to form an impenetrable security shield.
+* **Routine Conditions**: Samples 25% of traffic for deep verification, slashing compute costs by **75%**.
+* **Threat Surge / Attack Injections**: Instantly climbs to **85%–100%** inspection depth to form an impenetrable security shield.
+
 
 ---
 

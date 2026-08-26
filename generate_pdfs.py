@@ -4,30 +4,33 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 HERO_IMG_PATH = (BASE_DIR / "frontend" / "public" / "hero_banner.png").resolve().as_uri()
-LOGO_IMG_PATH = (BASE_DIR / "frontend" / "public" / "logo.png").resolve().as_uri()
+FLOWCHART_IMG_PATH = (BASE_DIR / "frontend" / "public" / "architecture_flowchart.png").resolve().as_uri()
 
-# --- 1. GENERATE README HTML ---
+# --- 1. GENERATE SLEEK README HTML ---
 readme_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ControlPlane.ai — Technical Architecture & README</title>
+<title>ControlPlane.ai — Technical Architecture & Solution Design</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800;900&display=swap');
   
   @page {{
     size: A4;
-    margin: 18mm 16mm 18mm 16mm;
+    margin: 14mm 14mm 14mm 14mm;
     @bottom-right {{
       content: counter(page);
+      font-size: 8pt;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
     }}
   }}
 
   body {{
     font-family: 'Inter', sans-serif;
     color: #1e293b;
-    line-height: 1.55;
-    font-size: 11pt;
+    line-height: 1.5;
+    font-size: 10pt;
     margin: 0;
     padding: 0;
   }}
@@ -38,71 +41,130 @@ readme_html = f"""<!DOCTYPE html>
     page-break-after: avoid;
   }}
 
-  h1 {{ font-size: 24pt; margin-bottom: 4px; color: #090d16; }}
-  h2 {{ font-size: 15pt; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; margin-top: 22pt; color: #1e293b; }}
-  h3 {{ font-size: 12pt; margin-top: 14pt; color: #334155; }}
+  h1 {{ font-size: 20pt; margin: 4px 0 2px 0; color: #090d16; }}
+  h2 {{ font-size: 13pt; border-bottom: 2px solid #e2e8f0; padding-bottom: 3px; margin-top: 16pt; margin-bottom: 8pt; color: #1e293b; }}
+  h3 {{ font-size: 11pt; margin-top: 12pt; margin-bottom: 4pt; color: #334155; }}
+
+  .hero-container {{
+    text-align: center;
+    margin-bottom: 12px;
+  }}
 
   .hero-banner {{
-    width: 100%;
-    max-height: 260px;
+    max-width: 82%;
+    max-height: 155px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 16px;
+    border-radius: 10px;
     border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   }}
 
   .badge {{
     display: inline-block;
-    padding: 3px 10px;
+    padding: 2px 8px;
     background: #fef3c7;
     color: #92400e;
     border: 1px solid #fde68a;
     border-radius: 999px;
-    font-size: 8.5pt;
+    font-size: 8pt;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }}
 
   .card-grid {{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin: 14px 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
   }}
 
   .stat-card {{
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
   }}
 
   .stat-val {{
-    font-size: 18pt;
+    font-size: 15pt;
     font-weight: 800;
     font-family: 'Outfit', sans-serif;
     color: #b45309;
   }}
 
   .stat-label {{
-    font-size: 9pt;
-    font-weight: 600;
+    font-size: 7.5pt;
+    font-weight: 700;
     text-transform: uppercase;
     color: #475569;
     font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+  }}
+
+  .flowchart-box {{
+    background: #090d16;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 10px 0;
+    text-align: center;
+    border: 1px solid #1e293b;
+  }}
+
+  .flowchart-img {{
+    width: 100%;
+    max-height: 180px;
+    object-fit: contain;
+    border-radius: 6px;
+  }}
+
+  .formula-box {{
+    background: #f8fafc;
+    border-left: 4px solid #f59e0b;
+    border: 1px solid #e2e8f0;
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+  }}
+
+  .formula-title {{
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }}
+
+  .formula-math {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a;
+  }}
+
+  .formula-cases {{
+    display: inline-block;
+    border-left: 2px solid #0f172a;
+    padding-left: 8px;
+    font-size: 8.5pt;
+    line-height: 1.6;
   }}
 
   table {{
     width: 100%;
     border-collapse: collapse;
-    margin: 14px 0;
-    font-size: 9.5pt;
+    margin: 10px 0;
+    font-size: 9pt;
   }}
 
   th, td {{
     border: 1px solid #cbd5e1;
-    padding: 7px 10px;
+    padding: 6px 8px;
     text-align: left;
   }}
 
@@ -111,38 +173,16 @@ readme_html = f"""<!DOCTYPE html>
     font-weight: 700;
     color: #0f172a;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
+    font-size: 8pt;
     text-transform: uppercase;
   }}
 
   code {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
-    background: #f1f5f9;
-    padding: 1px 4px;
-    border-radius: 4px;
-    color: #0f172a;
-  }}
-
-  pre {{
-    background: #0f172a;
-    color: #f8fafc;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: 'JetBrains Mono', monospace;
     font-size: 8.5pt;
-    overflow-x: auto;
-    line-height: 1.4;
-  }}
-
-  .diagram-box {{
-    background: #090d16;
-    color: #f8fafc;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 14px;
-    margin: 14px 0;
-    text-align: center;
+    background: #f1f5f9;
+    padding: 1px 3px;
+    border-radius: 3px;
   }}
 
   .page-break {{
@@ -152,136 +192,122 @@ readme_html = f"""<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- HERO IMAGE -->
-  <img src="{HERO_IMG_PATH}" class="hero-banner" alt="ControlPlane.ai Banner">
+  <!-- CENTERED CANVA HERO BANNER -->
+  <div class="hero-container">
+    <img src="{HERO_IMG_PATH}" class="hero-banner" alt="ControlPlane.ai Banner">
+  </div>
 
-  <div class="badge">ACCENTURE INNOVATION CHALLENGE 2026 • OFFICIAL TECHNICAL README</div>
-  <h1>ControlPlane.ai 🛡️</h1>
-  <p style="font-size: 11pt; color: #475569; margin-top: -2px;">
-    <strong>Model-Agnostic Real-Time AI Oversight, Guardrail & Quality Control Tower</strong><br>
-    <em>Lead Innovator & Software Architect: Tanu Shree</em>
-  </p>
+  <div style="text-align: center;">
+    <div class="badge">ACCENTURE INNOVATION CHALLENGE 2026 • OFFICIAL TECHNICAL README</div>
+    <h1>ControlPlane.ai 🛡️</h1>
+    <p style="font-size: 10.5pt; color: #475569; margin: 2px 0 10px 0;">
+      <strong>Model-Agnostic Real-Time AI Oversight, Guardrail &amp; Quality Control Tower</strong><br>
+      <em>Lead Innovator &amp; Software Architect: Tanu Shree</em>
+    </p>
+  </div>
 
-  <h2>1. Executive Overview & Problem Statement</h2>
+  <h2>1. Executive Summary &amp; The Enterprise AI Blind Spot</h2>
   <p>
-    As organizations rush Generative AI into customer support, coding, executive decision-making, and internal workflows, one critical question stops being theoretical: 
-    <strong>What happens the moment an AI gives an answer that sounds right — but isn't?</strong>
-  </p>
-  <p>
-    AI systems can be confidently wrong, generate misleading answers with authoritative tone, quietly burn compute through unnecessary tokens, and expose organizations to sensitive-data leakage without a single traditional infrastructure alarm going off.
+    Deploying a Generative AI model was never the hard part. <strong>Trusting what it says, every single time, is.</strong> Traditional APM tools (Datadog, New Relic) only monitor deterministic metrics like CPU load and HTTP 200 codes. When an LLM outputs a fabricated $10M financial claim or leaks customer credit cards, conventional alarms report <code>HTTP 200 OK</code>. ControlPlane.ai bridges this blind spot by inspecting content safety, factual grounding, and compute efficiency in real time.
   </p>
 
   <div class="card-grid">
     <div class="stat-card">
-      <div class="stat-val">$67.4 Billion</div>
-      <div class="stat-label">Hallucination Business Loss</div>
-      <p style="font-size: 8.5pt; color: #64748b; margin: 4px 0 0 0;">Estimated global enterprise cost of AI hallucinations in 2024 (AllAboutAI / Korra Report).</p>
+      <div class="stat-val">$67.4B</div>
+      <div class="stat-label">Hallucination Loss</div>
     </div>
     <div class="stat-card">
       <div class="stat-val">97%</div>
-      <div class="stat-label">Security Access Failures</div>
-      <p style="font-size: 8.5pt; color: #64748b; margin: 4px 0 0 0;">Of organizations reporting AI security breaches lacked real-time inline access guardrails (IBM 2025 Study).</p>
+      <div class="stat-label">Security Access Gap</div>
     </div>
     <div class="stat-card">
       <div class="stat-val">63%</div>
-      <div class="stat-label">Lack Formal Governance</div>
-      <p style="font-size: 8.5pt; color: #64748b; margin: 4px 0 0 0;">Enterprises deploy LLMs to production without automated quality gates, relying solely on uptime logs (Deloitte).</p>
+      <div class="stat-label">No Quality Gates</div>
     </div>
     <div class="stat-card">
-      <div class="stat-val">&lt; 15 ms</div>
-      <div class="stat-label">Fast Inline SLA</div>
-      <p style="font-size: 8.5pt; color: #64748b; margin: 4px 0 0 0;">Synchronous PII and injection inspection intercepts attacks without adding user lag.</p>
+      <div class="stat-val">&lt;15 ms</div>
+      <div class="stat-label">Fast Guard SLA</div>
     </div>
   </div>
 
-  <h2>2. System Architecture: The Dual-Speed Engine</h2>
+  <h2>2. System Architecture: Dual-Speed Evaluation Engine</h2>
   <p>
-    ControlPlane.ai recognizes that <strong>not all guardrails need to run at the same speed</strong>. Fast signals run synchronously inline, while deep judge models verify factual groundedness in parallel.
+    ControlPlane.ai decouples fast synchronous security checks from deep asynchronous factual reasoning:
   </p>
 
-  <div class="diagram-box">
-    <svg width="100%" height="160" viewBox="0 0 700 160" xmlns="http://www.w3.org/2000/svg">
-      <rect x="10" y="55" width="130" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-      <text x="75" y="80" fill="#ffffff" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle">User / Application</text>
-      <text x="75" y="93" fill="#94a3b8" font-size="8" font-family="monospace" text-anchor="middle">Input Prompt</text>
-      
-      <line x1="140" y1="80" x2="180" y2="80" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
-      
-      <rect x="180" y="30" width="150" height="100" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-      <text x="255" y="52" fill="#f59e0b" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle">1. FAST INLINE GUARD</text>
-      <text x="255" y="68" fill="#ffffff" font-size="8" font-family="monospace" text-anchor="middle">&lt;15ms Latency</text>
-      <text x="255" y="88" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• PII &amp; Secrets (Luhn)</text>
-      <text x="255" y="104" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• Prompt Injections</text>
-      <text x="255" y="118" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• Token Metering</text>
-
-      <line x1="330" y1="80" x2="370" y2="80" stroke="#10b981" stroke-width="2"/>
-
-      <rect x="370" y="30" width="150" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-      <text x="445" y="52" fill="#10b981" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle">2. PARALLEL JUDGE</text>
-      <text x="445" y="68" fill="#ffffff" font-size="8" font-family="monospace" text-anchor="middle">~180ms on Groq</text>
-      <text x="445" y="88" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• RAG Context Grounding</text>
-      <text x="445" y="104" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• Hallucination Check</text>
-      <text x="445" y="118" fill="#cbd5e1" font-size="8" font-family="sans-serif" text-anchor="middle">• Toxicity &amp; Bias</text>
-
-      <line x1="520" y1="80" x2="560" y2="80" stroke="#38bdf8" stroke-width="2"/>
-
-      <rect x="560" y="55" width="130" height="50" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
-      <text x="625" y="78" fill="#ffffff" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle">3. TIERED DELIVERY</text>
-      <text x="625" y="93" fill="#a855f7" font-size="8" font-family="monospace" text-anchor="middle">Safe / Warning / HITL</text>
-    </svg>
+  <!-- INSERTED FLOWCHART GRAPHIC -->
+  <div class="flowchart-box">
+    <img src="{FLOWCHART_IMG_PATH}" class="flowchart-img" alt="Dual-Speed Evaluation Engine Architecture">
   </div>
 
   <div class="page-break"></div>
 
-  <h2>3. Why We Used These Technologies (Design Rationale)</h2>
+  <h2>3. Mathematical Dynamic Adaptive Sampling</h2>
+  <p>
+    Deep LLM evaluation on 100% of routine traffic is economically unsustainable. ControlPlane.ai dynamically modulates inspection depth based on active anomaly frequency:
+  </p>
+
+  <!-- CLEAN RENDERED FORMULA BOX (NO LATEX ARTIFACTS) -->
+  <div class="formula-box">
+    <span class="formula-title">Dynamic Threat-Triggered Controller:</span>
+    <div class="formula-math">
+      <strong>SampleRate(t) = </strong>
+      <div class="formula-cases">
+        <strong>25%</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>if</em> AnomalyRate<sub>60s</sub> &le; 15% &nbsp; (<strong>Nominal Mode</strong>)<br>
+        <strong>min(100%, 25% + &alpha; &middot; AnomalyRate)</strong> &nbsp;&nbsp;&nbsp; <em>if</em> AnomalyRate<sub>60s</sub> &gt; 15% &nbsp; (<strong>Surge Mode</strong>)
+      </div>
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>Routine Conditions:</strong> Evaluates 25% of baseline traffic, slashing evaluation compute costs by <strong>75%</strong>.</li>
+    <li><strong>Threat Surge / Attack Injections:</strong> Instantly scales up to <strong>85%–100%</strong> inspection depth to shield enterprise infrastructure during attack flurries.</li>
+  </ul>
+
+  <h2>4. Why We Used These Technologies (Design Rationale)</h2>
   <table>
     <thead>
       <tr>
         <th style="width: 25%;">Technology</th>
-        <th style="width: 20%;">Layer</th>
-        <th>Engineering Rationale &amp; Strategic Why</th>
+        <th style="width: 20%;">Architecture Layer</th>
+        <th>Strategic &amp; Engineering Rationale</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Groq Cloud LPUs</strong></td>
+        <td><strong>Groq Cloud (LPU)</strong></td>
         <td>Inference Engine</td>
-        <td>Provides &lt;200ms time-to-first-token inference for 70B and 8B models. Enables live LLM-as-a-Judge evaluation in parallel with zero perceivable delay to the end user.</td>
+        <td>Provides &lt;200ms time-to-first-token inference for 70B/8B models, allowing live parallel Judge verification with zero user lag.</td>
       </tr>
       <tr>
-        <td><strong>Meta Llama 3 &amp; Compound Models</strong></td>
-        <td>Base &amp; Judge LLM</td>
-        <td>Open-weights, enterprise-safe, with superior reasoning on structured JSON output and factual comparison benchmarks.</td>
+        <td><strong>Meta Llama 3 / Compound</strong></td>
+        <td>Base &amp; Judge Models</td>
+        <td>Open-weights, enterprise-safe with superior reasoning on structured JSON output and factual comparison benchmarks.</td>
       </tr>
       <tr>
-        <td><strong>FastAPI (Python)</strong></td>
+        <td><strong>FastAPI (Python 3.10+)</strong></td>
         <td>Backend Gateway</td>
-        <td>Asynchronous native ASGI framework with built-in Pydantic validation, concurrent background task workers, and high-performance WebSockets.</td>
-      </tr>
-      <tr>
-        <td><strong>WebSockets (Native)</strong></td>
-        <td>Live Telemetry</td>
-        <td>Instant bidirectional push of telemetry logs to the Control Tower UI with sub-millisecond overhead compared to polling.</td>
+        <td>Asynchronous ASGI architecture with built-in Pydantic validation, concurrent background workers, and native WebSockets.</td>
       </tr>
       <tr>
         <td><strong>React 19 + TypeScript + Vite</strong></td>
-        <td>Frontend Architecture</td>
-        <td>Strict type safety across the entire telemetry contract, rapid HMR developer experience, and component-level re-rendering optimization.</td>
+        <td>Frontend Platform</td>
+        <td>Strict type safety across the telemetry contract, rapid HMR developer velocity, and optimized component re-rendering.</td>
       </tr>
       <tr>
         <td><strong>Tailwind CSS (Dark Obsidian)</strong></td>
-        <td>UI / UX Design</td>
-        <td>High-contrast, accessibility-compliant executive dark aesthetic (<code>#07090E</code>) with glowing status indicators.</td>
+        <td>Executive UI</td>
+        <td>High-contrast, accessibility-compliant executive dark aesthetic (<code>#07090E</code>) with light typography and glowing indicators.</td>
       </tr>
       <tr>
         <td><strong>Recharts</strong></td>
-        <td>Data Visualization</td>
+        <td>Visual Analytics</td>
         <td>Declarative, GPU-accelerated SVG charting for OWASP threat distribution and latency histograms.</td>
       </tr>
     </tbody>
   </table>
 
-  <h2>4. OWASP Top 10 for LLMs Security Mapping</h2>
+  <h2>5. OWASP Top 10 for LLMs Security Mapping</h2>
   <table>
     <thead>
       <tr>
@@ -299,12 +325,12 @@ readme_html = f"""<!DOCTYPE html>
       <tr>
         <td><code>LLM02</code></td>
         <td><strong>Sensitive Info Disclosure</strong></td>
-        <td>Regex, Luhn verification, and secret scanners strip/block API keys, credit cards, and SSNs.</td>
+        <td>Regex, Luhn algorithm, and secret scanners strip/block API keys, credit cards, and SSNs.</td>
       </tr>
       <tr>
         <td><code>LLM03</code></td>
         <td><strong>Hallucination / Misinformation</strong></td>
-        <td>Parallel Judge model scores groundedness against verified reference documents.</td>
+        <td>Parallel Judge model scores factual groundedness against verified reference documents.</td>
       </tr>
       <tr>
         <td><code>LLM04</code></td>
@@ -324,275 +350,59 @@ readme_html = f"""<!DOCTYPE html>
     </tbody>
   </table>
 
-  <h2>5. 90-Second Pitch &amp; Live Demo Script</h2>
-  <ol>
-    <li><strong>The Problem (0:00 – 0:30 on Home / Control Tower)</strong>: Explain that traditional APMs only watch uptime and latency — they cannot detect when an AI is confidently wrong. In 2024, hallucinations cost enterprises $67.4B.</li>
-    <li><strong>The Dual-Speed Engine (0:30 – 1:05 on Gateway Lab)</strong>:
-      <ul>
-        <li>Click <strong>Preset 1 (Credit Card Exfiltration)</strong>: Show Fast Guard intercepting sensitive PII in 1.2ms.</li>
-        <li>Click <strong>Preset 2 (Financial Hallucination)</strong>: Show Parallel Judge catching the fabricated 34.8% growth metric and attaching a Citation Warning.</li>
-      </ul>
-    </li>
-    <li><strong>Threat Surge &amp; HITL Audit (1:05 – 1:30 on Control Tower &amp; HITL Queue)</strong>:
-      <ul>
-        <li>Click <strong>Threat Surge</strong>: Watch the Adaptive Sampling gauge auto-climb from 25% to 85% to shield infrastructure.</li>
-        <li>Open <strong>HITL Queue</strong>: Demonstrate 1-click remediation and export of timestamped compliance packages.</li>
-      </ul>
-    </li>
-  </ol>
-
-</body>
-</html>
-"""
-
-# --- 2. GENERATE BUSINESS PROPOSAL HTML ---
-proposal_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>ControlPlane.ai — Enterprise Business Proposal</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800;900&display=swap');
-  
-  @page {{
-    size: A4;
-    margin: 18mm 16mm 18mm 16mm;
-    @bottom-right {{
-      content: counter(page);
-    }}
-  }}
-
-  body {{
-    font-family: 'Inter', sans-serif;
-    color: #1e293b;
-    line-height: 1.55;
-    font-size: 10.5pt;
-    margin: 0;
-    padding: 0;
-  }}
-
-  h1, h2, h3, h4 {{
-    font-family: 'Outfit', sans-serif;
-    color: #0f172a;
-    page-break-after: avoid;
-  }}
-
-  h1 {{ font-size: 22pt; margin-bottom: 2px; color: #090d16; }}
-  h2 {{ font-size: 14pt; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-top: 20pt; color: #0f172a; }}
-  h3 {{ font-size: 11pt; margin-top: 12pt; color: #334155; }}
-
-  .hero-banner {{
-    width: 100%;
-    max-height: 240px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 14px;
-    border: 1px solid #cbd5e1;
-  }}
-
-  .badge {{
-    display: inline-block;
-    padding: 3px 10px;
-    background: #e0e7ff;
-    color: #3730a3;
-    border: 1px solid #c7d2fe;
-    border-radius: 999px;
-    font-size: 8.5pt;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }}
-
-  .exec-box {{
-    background: #f8fafc;
-    border-left: 4px solid #f59e0b;
-    padding: 12px 16px;
-    border-radius: 0 8px 8px 0;
-    margin: 14px 0;
-    font-size: 10pt;
-  }}
-
-  table {{
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-    font-size: 9.5pt;
-  }}
-
-  th, td {{
-    border: 1px solid #cbd5e1;
-    padding: 6px 9px;
-    text-align: left;
-  }}
-
-  th {{
-    background: #f1f5f9;
-    font-weight: 700;
-    color: #0f172a;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    text-transform: uppercase;
-  }}
-
-  .roi-highlight {{
-    background: #ecfdf5;
-    border: 1px solid #a7f3d0;
-    color: #065f46;
-    font-weight: 700;
-  }}
-
-  .page-break {{
-    page-break-before: always;
-  }}
-</style>
-</head>
-<body>
-
-  <!-- HERO IMAGE -->
-  <img src="{HERO_IMG_PATH}" class="hero-banner" alt="ControlPlane.ai Banner">
-
-  <div class="badge">ACCENTURE INNOVATION CHALLENGE 2026 • OFFICIAL BUSINESS PROPOSAL</div>
-  <h1>BUSINESS PROPOSAL: ControlPlane.ai</h1>
-  <p style="font-size: 11pt; color: #475569; margin-top: -2px;">
-    <strong>Autonomous Real-Time AI Oversight, Guardrail &amp; Quality Control Tower for Enterprise GenAI</strong><br>
-    <em>Lead Author / Innovator: Tanu Shree • Accenture Lead</em>
-  </p>
-
-  <div class="exec-box">
-    <strong>Executive Summary:</strong> Enterprise adoption of Generative AI is stalling due to trust, security, and cost unpredictability. In 2024, AI hallucinations caused <strong>$67.4B</strong> in enterprise loss, while <strong>97%</strong> of AI security breaches lacked real-time inline guardrails. <strong>ControlPlane.ai</strong> introduces a model-agnostic, dual-speed control tower delivering <strong>$3.24M net annual cost avoidance</strong> (32.4x ROI) for a 5,000-employee enterprise while ensuring strict compliance with the EU AI Act and NIST AI RMF.
-  </div>
-
-  <h2>1. Problem Framing &amp; Market Opportunity</h2>
-  <p>
-    Conventional infrastructure monitors (Datadog, New Relic) only track CPU load and latency. When an LLM outputs a fabricated $10M financial figure or leaks customer SSNs, the system reports <code>HTTP 200 OK</code>. ControlPlane.ai solves this blind spot by continuously inspecting content safety, factual accuracy, and compute efficiency in real time.
-  </p>
-  <ul>
-    <li><strong>Total Addressable Market (TAM)</strong>: $10.2 Billion by 2028 (34.2% CAGR).</li>
-    <li><strong>Serviceable Addressable Market (SAM)</strong>: Fortune 2000 enterprises deploying GenAI ($3.8B).</li>
-    <li><strong>Regulatory Catalysts</strong>: EU AI Act High-Risk Mandates (enforced 2025/2026) with penalties up to €35M or 7% global turnover.</li>
-  </ul>
-
-  <h2>2. Financial ROI &amp; Economic Impact Model</h2>
-  <p>
-    Quantified business case for a typical 5,000-employee enterprise deploying GenAI (10,000,000 interactions/month):
-  </p>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 35%;">Financial Benefit Category</th>
-        <th style="width: 30%;">Without ControlPlane.ai</th>
-        <th style="width: 35%;">With ControlPlane.ai</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Hallucination Liability Avoided</strong></td>
-        <td>1.8% error rate = $2.40M in customer disputes &amp; rework</td>
-        <td class="roi-highlight">+$2,160,000 net savings (0.2% error rate)</td>
-      </tr>
-      <tr>
-        <td><strong>Data Breach &amp; Regulatory Penalties</strong></td>
-        <td>High exposure to PII leakage ($4.88M avg breach cost)</td>
-        <td class="roi-highlight">+$850,000 (Risk-adjusted protection)</td>
-      </tr>
-      <tr>
-        <td><strong>Judge Compute Token Burn</strong></td>
-        <td>$120,000/year (Flat 100% eval)</td>
-        <td class="roi-highlight">+$90,000 (75% savings via Adaptive Sampling)</td>
-      </tr>
-      <tr>
-        <td><strong>Engineering Maintenance</strong></td>
-        <td>4 engineers building custom regexes ($480k/yr)</td>
-        <td class="roi-highlight">+$240,000 (Centralized policy studio)</td>
-      </tr>
-      <tr style="background: #f8fafc; font-weight: bold;">
-        <td>TOTAL ANNUAL GROSS VALUE</td>
-        <td>—</td>
-        <td>$3,340,000</td>
-      </tr>
-      <tr style="background: #f1f5f9;">
-        <td>Enterprise Platform Subscription</td>
-        <td>—</td>
-        <td>($100,000)</td>
-      </tr>
-      <tr style="background: #ecfdf5; font-size: 11pt; font-weight: 800; color: #065f46;">
-        <td>NET ANNUAL RETURN ON INVESTMENT</td>
-        <td>—</td>
-        <td>+$3,240,000 (3,240% ROI / 32.4x)</td>
-      </tr>
-    </tbody>
-  </table>
-
   <div class="page-break"></div>
 
-  <h2>3. Buyer Personas &amp; Target Enterprise Stakeholders</h2>
+  <h2>6. Key Modules &amp; Capabilities</h2>
   <ul>
-    <li><strong>Chief Information Security Officer (CISO)</strong>: Zero PII exfiltration, prompt-injection defense, and universal model-agnostic protection across all vendors.</li>
-    <li><strong>Head of Generative AI / VP of Engineering</strong>: Sub-15ms user latency SLA, 75% compute cost savings, and 1-line reverse-proxy gateway deployment.</li>
-    <li><strong>Chief Risk &amp; Compliance Officer (CRO / Legal)</strong>: Turnkey EU AI Act compliance, Human-in-the-Loop triage board, and 1-click downloadable SOC-2 audit logs.</li>
+    <li><strong>📡 Control Tower:</strong> Real-time throughput metrics, blocked critical intercepts counter, and live OWASP threat distribution.</li>
+    <li><strong>🧪 Gateway Lab:</strong> Interactive sandbox with 1-click live presets (Credit Card exfiltration, financial hallucination, prompt injection, and grounded RAG).</li>
+    <li><strong>⚠️ HITL Queue:</strong> 5-point forensic review modal with 1-click remediation (Approve, Reject, or Redirect to Canned Response) and SOC-2 audit exporter.</li>
+    <li><strong>⚙️ Policy Studio:</strong> Centralized rule configuration with hallucination sensitivity sliders and encrypted API key management.</li>
   </ul>
 
-  <h2>4. Commercial Pricing Model</h2>
+  <h2>7. Quick Start &amp; Execution Guide</h2>
   <table>
     <thead>
       <tr>
-        <th style="width: 25%;">Tier</th>
-        <th style="width: 25%;">Target</th>
-        <th>Included Capabilities &amp; Pricing</th>
+        <th style="width: 25%;">Step</th>
+        <th style="width: 35%;">Action</th>
+        <th>Commands</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Developer Sandbox</strong></td>
-        <td>Individual Engineers</td>
-        <td><strong>Free</strong> • Up to 50k requests/mo • Standard fast inline guards • Community support.</td>
+        <td><strong>1. Clone Repo</strong></td>
+        <td>Download project source</td>
+        <td><code>git clone https://github.com/tanu99C/ControlPlane-.ai.git</code></td>
       </tr>
       <tr>
-        <td><strong>Enterprise Control Tower</strong></td>
-        <td>Mid-to-Large Enterprises</td>
-        <td><strong>$8,000 / month</strong> • 5M requests/mo • Dual-Speed Engine + Parallel Judge • Dynamic Adaptive Sampling • Multi-user HITL Queue • 24/7 dedicated SLA.</td>
+        <td><strong>2. Setup .env</strong></td>
+        <td>Copy template &amp; add Groq key</td>
+        <td><code>copy backend\\.env.example backend\\.env</code></td>
       </tr>
       <tr>
-        <td><strong>Sovereign Air-Gapped</strong></td>
-        <td>GovCloud / Defense / Banking</td>
-        <td><strong>$150,000+ / year</strong> • Unlimited on-premise deployments • Local vLLM/Ollama model weights • Custom HIPAA/FedRAMP compliance adapters.</td>
+        <td><strong>3. Start Backend</strong></td>
+        <td>FastAPI server (Port 8000)</td>
+        <td><code>cd backend &amp;&amp; python -m uvicorn app.main:app --reload</code></td>
+      </tr>
+      <tr>
+        <td><strong>4. Start Frontend</strong></td>
+        <td>React dev server (Port 5173)</td>
+        <td><code>cd frontend &amp;&amp; npm install &amp;&amp; npm run dev</code></td>
       </tr>
     </tbody>
   </table>
 
-  <h2>5. Phased Scalability Roadmap (2026 – 2027)</h2>
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 20%;">Phase</th>
-        <th style="width: 25%;">Timeline</th>
-        <th>Key Milestones &amp; Deliverables</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Phase 1: Core Gateway</strong></td>
-        <td>Q3 – Q4 2026</td>
-        <td>Universal reverse proxy MVP • Groq LPU parallel judge integration • REST &amp; WebSocket streaming telemetry.</td>
-      </tr>
-      <tr>
-        <td><strong>Phase 2: Agentic Defense</strong></td>
-        <td>Q1 – Q2 2027</td>
-        <td>Multi-hop autonomous agent guardrails • Tool/function call interception (preventing SQL injection &amp; loops) • Automated RAG provenance engine.</td>
-      </tr>
-      <tr>
-        <td><strong>Phase 3: Autonomous Scale</strong></td>
-        <td>Q3 – Q4 2027</td>
-        <td>Self-healing guardrails (RLHF fine-tuning from HITL rejection logs) • Air-gapped on-premise appliance.</td>
-      </tr>
-    </tbody>
-  </table>
+  <h2>8. Scalability Roadmap</h2>
+  <ul>
+    <li><strong>Q4 2026:</strong> Multi-hop agentic guardrails (autonomous agent tool-call interception).</li>
+    <li><strong>Q1 2027:</strong> Air-gapped on-premise deployment package with vLLM / Ollama sidecars.</li>
+    <li><strong>Q2 2027:</strong> Automated continuous model fine-tuning feedback loop based on HITL rejection logs.</li>
+  </ul>
 
-  <h2>6. Strategic Accenture Alignment</h2>
-  <p>
-    ControlPlane.ai directly supports Accenture’s <strong>$3 Billion AI Investment</strong> by providing a turnkey, plug-and-play governance shield for client GenAI engagements, accelerating enterprise sales cycles, and creating high-margin Managed Governance consulting services.
-  </p>
+  <div style="margin-top: 24px; padding-top: 12px; border-top: 1px solid #cbd5e1; font-size: 9pt; color: #64748b; text-align: center;">
+    <strong>ControlPlane.ai</strong> • Developed for Accenture Innovation Challenge 2026 • Lead Author: <strong>Tanu Shree</strong>
+  </div>
 
 </body>
 </html>
@@ -600,42 +410,27 @@ proposal_html = f"""<!DOCTYPE html>
 
 # Write HTML files
 readme_html_path = BASE_DIR / "README_EXPORT.html"
-proposal_html_path = BASE_DIR / "BUSINESS_PROPOSAL_EXPORT.html"
-
 readme_html_path.write_text(readme_html, encoding="utf-8")
-proposal_html_path.write_text(proposal_html, encoding="utf-8")
 
-# Paths for output PDFs
 readme_pdf_path = BASE_DIR / "ControlPlane_AI_README.pdf"
 proposal_pdf_path = BASE_DIR / "ControlPlane_AI_Business_Proposal.pdf"
 
 # Find browser executable
-edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-browser_bin = edge_path if os.path.exists(edge_path) else chrome_path
+if not os.path.exists(chrome_path):
+    chrome_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
-print(f"Using browser: {browser_bin}")
+print(f"Using browser: {chrome_path}")
 
-# Generate PDFs
 cmd1 = [
-    browser_bin,
-    "--headless",
+    chrome_path,
+    "--headless=new",
     "--disable-gpu",
+    "--no-pdf-header-footer",
     f"--print-to-pdf={readme_pdf_path}",
-    "--no-pdf-header-footer",
-    str(readme_html_path)
-]
-cmd2 = [
-    browser_bin,
-    "--headless",
-    "--disable-gpu",
-    f"--print-to-pdf={proposal_pdf_path}",
-    "--no-pdf-header-footer",
-    str(proposal_html_path)
+    readme_html_path.as_uri()
 ]
 
 subprocess.run(cmd1, check=True)
-subprocess.run(cmd2, check=True)
 
-print(f"Generated: {readme_pdf_path} (Size: {readme_pdf_path.stat().st_size} bytes)")
-print(f"Generated: {proposal_pdf_path} (Size: {proposal_pdf_path.stat().st_size} bytes)")
+print(f"SUCCESS: Generated {readme_pdf_path.name} ({readme_pdf_path.stat().st_size / 1024:.1f} KB)")
